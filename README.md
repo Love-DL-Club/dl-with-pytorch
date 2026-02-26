@@ -3,5 +3,12 @@
 
 python version : 3.11
 ```py
-uv main.py
+uv run main.py
+```
+
+src/lib 안의 py를 import 할려면
+```py
+uv pip install -e .
+
+# import 가 잘 안되는경우 vscode reload
 ```
