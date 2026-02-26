@@ -12,3 +12,5 @@ uv pip install -e .
 
 # import 가 잘 안되는경우 vscode reload
 ```
+
+## vscode 확장 프로그램 ruff 설치
