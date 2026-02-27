@@ -14,3 +14,11 @@ uv pip install -e .
 ```
 
 ## vscode 확장 프로그램 ruff 설치
+
+# jupytext 실행법
+|![alt text](image.png)|![alt text](image-1.png)|
+
+화면대로 enter, enter
+
+![alt text](image-2.png)
+Jupytext 설치
