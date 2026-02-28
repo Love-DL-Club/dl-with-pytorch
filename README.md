@@ -3,7 +3,7 @@
 
 python version : 3.11
 ```py
-uv run main.py
+uv sync
 ```
 
 src/lib 안의 py를 import 할려면
