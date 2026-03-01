@@ -1,6 +1,8 @@
 # 사랑의 딥러닝단 
 ## 텐초의 파이토치 특강 스터디
 
+[예제 코드](https://colab.research.google.com/drive/11k-SAzMs6mw_0gTMxmIAIY2gCfB8VbqB)
+
 python version : 3.11
 ```py
 uv sync
