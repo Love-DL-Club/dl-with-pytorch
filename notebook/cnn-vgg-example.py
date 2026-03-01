@@ -7,7 +7,7 @@
 #       format_version: '1.3'
 #       jupytext_version: 1.19.1
 #   kernelspec:
-#     display_name: study-club (3.11.14)
+#     display_name: dl-with-pytorch
 #     language: python
 #     name: python3
 # ---
@@ -194,10 +194,100 @@ for ep in range(100):
     if ep == 0 or ep % 10 == 9:
         print(f'epoch {ep + 1} loss: {loss.item()}')
 
-torch.save(model.state_dict(), 'CiFAR.pth')
+torch.save(model.state_dict(), '../data/models/CiFAR.pth')
 
 # %%
 model.load_state_dict(torch.load('CIFAR.pth', map_location=device))
+
+num_corr = 0
+
+with torch.no_grad():
+    for data, label in test_loader:
+        output = model(data.to(device))
+        preds = output.data.max(1)[1]
+        corr = preds.eq(label.to(device).data).sum().item()
+        num_corr += corr
+
+print(f'Accuracy: {num_corr / len(test_data)}')
+
+# %%
+import torch.nn as nn
+import torchvision.models as models
+
+from lib.device import available_device
+
+device = available_device()
+print(device)
+
+model = models.vgg16(weights=models.VGG16_Weights.DEFAULT)
+fc = nn.Sequential(
+    nn.Linear(512 * 7 * 7, 4096),
+    nn.ReLU(),
+    nn.Dropout(),
+    nn.Linear(4096, 4096),
+    nn.ReLU(),
+    nn.Dropout(),
+    nn.Linear(4096, 10),
+)
+
+model.classifier = fc
+model.to(device)
+
+# %%
+import torch
+import tqdm
+from torch.optim.adam import Adam
+from torch.utils.data.dataloader import DataLoader
+from torchvision.transforms import (
+    Compose,
+    Normalize,
+    RandomCrop,
+    RandomHorizontalFlip,
+    Resize,
+    ToTensor,
+)
+
+from lib.cifar10_data import load_data
+
+transforms = Compose(
+    [
+        Resize(224),
+        RandomCrop((224, 224), padding=4),
+        RandomHorizontalFlip(p=0.5),
+        ToTensor(),
+        Normalize(mean=(0.4914, 0.4822, 0.4465), std=(0.247, 0.243, 0.261)),
+    ]
+)
+
+train_data = load_data(root='../data', train=True, transform=transforms)
+test_data = load_data(root='../data', train=False, transform=transforms)
+
+train_loader = DataLoader(train_data, batch_size=32, shuffle=True)
+test_loader = DataLoader(test_data, batch_size=32, shuffle=False)
+
+lr = 1e-4
+optim = Adam(model.parameters(), lr=lr)
+
+
+for ep in range(1):
+    iterator = tqdm.tqdm(train_loader)
+    for data, label in iterator:
+        optim.zero_grad()
+
+        preds = model(data.to(device))
+
+        loss = nn.CrossEntropyLoss()(preds, label.to(device))
+        loss.backward()
+        optim.step()
+
+        iterator.set_description(f'epoch: {ep + 1} loss: {loss.item()}')
+
+torch.save(model.state_dict(), '../data/models/CIFAR_pretrained.pth')
+
+# %%
+model.load_state_dict(
+    torch.load('../data/models/CIFAR_pretrained.pth', map_location=device)
+)
 
 num_corr = 0
 
