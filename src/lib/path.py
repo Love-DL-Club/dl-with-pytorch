@@ -1,6 +1,8 @@
 from pathlib import Path
 
-root = Path.cwd().parent
+from pyprojroot import here
+
+root = here()
 
 
 def model_path(file_name):
@@ -8,3 +10,10 @@ def model_path(file_name):
     Path(model_path).mkdir(parents=True, exist_ok=True)
 
     return str(model_path / file_name)
+
+
+def data_path():
+    data_path = root / 'data'
+    Path(data_path).mkdir(parents=True, exist_ok=True)
+
+    return str(data_path)
