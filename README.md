@@ -24,3 +24,8 @@ uv pip install -e .
 
 ![alt text](image-2.png)
 Jupytext 설치
+
+# nbstripout 활성화
+```
+uv run nbstripout --install
+```
