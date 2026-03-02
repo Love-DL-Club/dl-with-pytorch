@@ -24,3 +24,15 @@ uv pip install -e .
 
 ![alt text](image-2.png)
 Jupytext 설치
+
+# nbstripout 활성화
+```
+uv run nbstripout --install
+```
+
+# lib.path 사용법
+```
+from lib.path import model_path
+
+torch.load(model_path('xxx.pth'))
+```

@@ -6,7 +6,10 @@ CPU = 'cpu'
 
 
 def available_device():
+    device = CPU
     if sys.platform == 'wind32' or sys.platform == 'linux':
-        return 'cuda' if torch.cuda.is_available() else CPU
+        device = 'cuda' if torch.cuda.is_available() else CPU
 
-    return 'mps' if torch.backends.mps.is_available() else CPU
+    device = 'mps' if torch.backends.mps.is_available() else CPU
+    print(f'using {device}')
+    return device
