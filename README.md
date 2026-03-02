@@ -29,3 +29,10 @@ Jupytext 설치
 ```
 uv run nbstripout --install
 ```
+
+# lib.path 사용법
+```
+from lib.path import model_path
+
+torch.load(model_path('xxx.pth'))
+```
