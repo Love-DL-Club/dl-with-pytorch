@@ -16,5 +16,4 @@
     "jupytext.sync.defaultFormats": {
         "ipynb": "ipynb,py:percent"
     }
-
 }
