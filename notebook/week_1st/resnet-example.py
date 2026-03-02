@@ -112,7 +112,7 @@ from torchvision.transforms import (
 
 from lib.cifar10_data import load_data
 from lib.device import available_device
-from lib.path import model_path
+from lib.path import data_path, model_path
 
 transforms = Compose(
     [
@@ -123,8 +123,8 @@ transforms = Compose(
     ]
 )
 
-train_data = load_data(root='../data', train=True, transform=transforms)
-test_data = load_data(root='../data', train=False, transform=transforms)
+train_data = load_data(root=data_path(), train=True, transform=transforms)
+test_data = load_data(root=data_path(), train=False, transform=transforms)
 
 train_loader = DataLoader(train_data, batch_size=32, shuffle=True)
 test_loader = DataLoader(test_data, batch_size=32, shuffle=False)
