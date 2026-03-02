@@ -7,7 +7,7 @@
 #       format_version: '1.3'
 #       jupytext_version: 1.19.1
 #   kernelspec:
-#     display_name: dl-with-pytorch
+#     display_name: study-club (3.11.14)
 #     language: python
 #     name: python3
 # ---
@@ -17,9 +17,10 @@ import matplotlib.pyplot as plt
 from torchvision.transforms import ToTensor
 
 from lib.cifar10_data import load_data
+from lib.path import data_path
 
-train_data = load_data(root='../data', train=True, transform=ToTensor())
-test_data = load_data(root='../data', train=False, transform=ToTensor())
+train_data = load_data(root=data_path(), train=True, transform=ToTensor())
+test_data = load_data(root=data_path(), train=False, transform=ToTensor())
 
 for i in range(9):
     plt.subplot(3, 3, i + 1)
