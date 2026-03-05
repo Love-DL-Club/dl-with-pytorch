@@ -41,3 +41,5 @@ from lib.path import data_path
 # 어느 위치에 있던 root/data 폴더 경로를 읽어옵니다.
 train_data = MNIST(root=data_path(), train=True, download=True, transform=ToTensor())
 ```
+
+여기는 내가 수정...
