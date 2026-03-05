@@ -43,3 +43,5 @@ train_data = MNIST(root=data_path(), train=True, download=True, transform=ToTens
 ```
 
 git test
+
+여기는 내가 수정...
