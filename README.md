@@ -42,4 +42,6 @@ from lib.path import data_path
 train_data = MNIST(root=data_path(), train=True, download=True, transform=ToTensor())
 ```
 
+git test
+
 여기는 내가 수정...
