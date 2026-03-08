@@ -75,6 +75,7 @@ ignore = [
     "N803",
     'N812',
     'E401',
+    'N806',
 ]
 
 [tool.ruff.format]
