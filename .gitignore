@@ -11,6 +11,6 @@ data/
 # Virtual environments
 .venv
 .mypy*
-
+.env*
 
 .DS_Store
