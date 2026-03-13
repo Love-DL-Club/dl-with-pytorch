@@ -163,8 +163,8 @@ import tqdm
 from torch.optim.adam import Adam
 from torch.utils.data.dataloader import DataLoader
 
-from lib.device import available_device
-from lib.path import model_path
+from lib.utils.device import available_device
+from lib.utils.path import model_path
 
 device = available_device()
 

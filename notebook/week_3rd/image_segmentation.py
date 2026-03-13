@@ -16,7 +16,7 @@
 import matplotlib.pyplot as plt
 from PIL import Image
 
-from lib.path import data_path
+from lib.utils.path import data_path
 
 # https://drive.google.com/drive/folders/1Qd-zNPa-09b_2CPN4Lj7wqDyFl_mxjpH?usp=drive_link
 # https://drive.google.com/drive/folders/1ckoEygLFntQbRqUsrD20AA6TwzRaRLqc?usp=drive_link
@@ -98,7 +98,6 @@ class Pets(Dataset):
             y_test = self.preprocess_mask(y_test)
 
             return X_test, y_test
-
 
 
 # %%
@@ -212,15 +211,14 @@ class UNet(nn.Module):
         return x
 
 
-
 # %%
 import tqdm
 from torch.optim.adam import Adam
 from torch.utils.data.dataloader import DataLoader
 from torchvision.transforms import Compose, Resize, ToTensor
 
-from lib.device import available_device
-from lib.path import model_path
+from lib.utils.device import available_device
+from lib.utils.path import model_path
 
 device = available_device()
 
@@ -284,4 +282,3 @@ with torch.no_grad():
     plt.imshow(label)
 
     plt.show()
-

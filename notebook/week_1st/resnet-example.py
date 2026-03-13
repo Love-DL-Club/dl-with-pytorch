@@ -110,9 +110,9 @@ from torchvision.transforms import (
     ToTensor,
 )
 
-from lib.cifar10_data import load_data
-from lib.device import available_device
-from lib.path import data_path, model_path
+from lib.dataset.cifar10_data import load_data
+from lib.utils.device import available_device
+from lib.utils.path import data_path, model_path
 
 transforms = Compose(
     [
@@ -153,7 +153,7 @@ for ep in range(30):
 torch.save(model.state_dict(), model_path('ResNet.pth'))
 
 # %%
-from lib.path import model_path
+from lib.utils.path import model_path
 
 model.load_state_dict(torch.load(model_path('ResNet.pth'), map_location=device))
 
