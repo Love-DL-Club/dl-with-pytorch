@@ -7,7 +7,7 @@
 #       format_version: '1.3'
 #       jupytext_version: 1.19.1
 #   kernelspec:
-#     display_name: dl-with-pytorch
+#     display_name: study-club (3.11.14)
 #     language: python
 #     name: python3
 # ---
@@ -272,14 +272,16 @@ model.load_state_dict(torch.load(model_path('UNet.pth'), map_location='cpu'))
 data, label = test_set[1]
 
 pred = model(torch.unsqueeze(data.to(device), dim=0)) > 0.5
+pred_for_plot = pred.detach().cpu().squeeze().numpy()
 
 with torch.no_grad():
     plt.subplot(1, 2, 1)
     plt.title('Predicted')
-    plt.imshow(pred)
+    plt.imshow(pred_for_plot)
 
     plt.subplot(1, 2, 2)
     plt.title('Real')
     plt.imshow(label)
 
     plt.show()
+
