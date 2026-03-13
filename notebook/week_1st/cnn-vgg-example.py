@@ -16,8 +16,8 @@
 import matplotlib.pyplot as plt
 from torchvision.transforms import ToTensor
 
-from lib.cifar10_data import load_data
-from lib.path import data_path
+from lib.dataset.cifar10_data import load_data
+from lib.utils.path import data_path
 
 train_data = load_data(root=data_path(), train=True, transform=ToTensor())
 test_data = load_data(root=data_path(), train=False, transform=ToTensor())
@@ -33,8 +33,8 @@ import matplotlib.pyplot as plt
 import torchvision.transforms as T
 from torchvision.transforms import Compose, RandomCrop, RandomHorizontalFlip
 
-from lib.cifar10_data import load_data
-from lib.show_image import show_image
+from lib.dataset.cifar10_data import load_data
+from lib.utils.show_image import show_image
 
 transforms = Compose(
     [
@@ -64,8 +64,8 @@ import matplotlib.pyplot as plt
 import torchvision.transforms as T
 from torchvision.transforms import Compose, Normalize, RandomCrop, RandomHorizontalFlip
 
-from lib.cifar10_data import load_data
-from lib.show_image import show_image
+from lib.dataset.cifar10_data import load_data
+from lib.utils.show_image import show_image
 
 transforms = Compose(
     [
@@ -155,7 +155,7 @@ class CNN(nn.Module):
 from torch.optim.adam import Adam
 from torch.utils.data.dataloader import DataLoader
 
-from lib.cifar10_data import load_data
+from lib.dataset.cifar10_data import load_data
 
 transforms = Compose(
     [
@@ -215,7 +215,7 @@ print(f'Accuracy: {num_corr / len(test_data)}')
 import torch.nn as nn
 import torchvision.models as models
 
-from lib.device import available_device
+from lib.utils.device import available_device
 
 device = available_device()
 print(device)
@@ -248,7 +248,7 @@ from torchvision.transforms import (
     ToTensor,
 )
 
-from lib.cifar10_data import load_data
+from lib.dataset.cifar10_data import load_data
 
 transforms = Compose(
     [
