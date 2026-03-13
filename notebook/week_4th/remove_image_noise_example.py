@@ -28,6 +28,7 @@ def gaussian_noise(x, scale=0.8):
     return gaussian_data_x
 
 
+
 # %%
 import matplotlib.pyplot as plt
 
@@ -98,6 +99,7 @@ class BasicBlock(nn.Module):
         return x
 
 
+
 # %%
 class Encoder(nn.Module):
     def __init__(self):
@@ -115,6 +117,7 @@ class Encoder(nn.Module):
         x = self.pool(x)
 
         return x
+
 
 
 # %%
