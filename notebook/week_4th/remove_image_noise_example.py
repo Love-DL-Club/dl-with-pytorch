@@ -71,7 +71,7 @@ class Denoising(Dataset):
     def __getitem__(self, i):
         data = self.data[i]
 
-        label = self.mnistdata[i] / 255
+        label = self.mnist.data[i] / 255
 
         return data, label
 
@@ -185,7 +185,7 @@ for ep in range(20):
         optim.zero_grad()
         pred = model(data.to(device))
 
-        loss = criterion(torch.sqeeze(pred), label.to(device))
+        loss = criterion(torch.squeeze(pred), label.to(device))
         loss.backward()
         optim.step()
         iterator.set_description(f'epoch{ep + 1} loss:{loss.item()}')
