@@ -33,3 +33,22 @@ plt.show()
 from auto_coloring.train import run
 
 run()
+
+# %%
+import matplotlib.pyplot as plt
+
+from auto_coloring.test import run
+
+image, pred = run()
+
+print(pred)
+
+plt.subplot(1, 2, 1)
+plt.imshow(image)
+plt.title('real image')
+
+plt.subplot(1, 2, 2)
+plt.imshow(pred)
+plt.title('predicted image')
+
+plt.show()

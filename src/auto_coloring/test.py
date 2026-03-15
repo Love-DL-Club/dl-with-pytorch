@@ -19,6 +19,7 @@ def run():
     real_img = np.concatenate([test_L, test_AB])
     real_img = real_img.transpose(1, 2, 0).astype(np.uint8)
     real_img = lab2rgb(real_img)
+    pred_img = None
 
     with torch.no_grad():
         model.load_state_dict(
@@ -32,7 +33,10 @@ def run():
         pred_LAB = torch.cat([input_tensor, pred_AB], dim=1)
         pred_LAB = torch.squeeze(pred_LAB)
         pred_LAB = pred_LAB.permute(1, 2, 0).cpu().numpy()
-        pred_LAB = lab2rgb(pred_LAB).astype(np.uint8)
+        pred_LAB = lab2rgb(pred_LAB.astype(np.uint8))
+        pred_img = pred_LAB
+
+    return real_img, pred_img
 
 
 if __name__ == '__main__':
