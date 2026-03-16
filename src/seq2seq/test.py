@@ -30,12 +30,12 @@ def main():
     data = torch.tensor(data, dtype=torch.long).to(device)
     label = torch.tensor(label, dtype=torch.long).to(device)
 
-    encoder_hidden = torch.zeros(1, 1, 4).to(device)
+    encoder_hidden = torch.zeros(1, 1, 64).to(device)
     encoder_outputs = torch.zeros(11, 64).to(device)
 
     for ei in range(len(data)):
         encoder_output, encoder_hidden = encoder(data[ei], encoder_hidden)
-        encoder_output[ei] = encoder_output[0, 0]
+        encoder_outputs[ei] = encoder_output[0, 0]
 
     decoder_input = torch.tensor([[0]]).to(device)
     decoder_hidden = encoder_hidden
