@@ -3,14 +3,21 @@ import random
 import torch
 
 from lib.utils.device import available_device
-from lib.utils.path import model_path
+from lib.utils.path import data_path, model_path
 from seq2seq.dataset import Eng2Kor
+from seq2seq.models import Decoder, Encoder
 
 
-def run(encoder, decoder):
+def main():
     device = available_device()
 
-    dataset = Eng2Kor()
+    dataset = Eng2Kor(data_path() / 'CH11.txt')
+
+    checkpoint = torch.load(model_path('attn_enc.pth'), map_location=device)
+    print(checkpoint.keys())
+
+    encoder = Encoder(input_size=len(dataset.eng_bow), hidden_size=64).to(device)
+    decoder = Decoder(64, len(dataset.kor_bow), dropout_p=0.1).to(device)
 
     encoder.load_state_dict(torch.load(model_path('attn_enc.pth'), map_location=device))
     decoder.load_state_dict(torch.load(model_path('attn_dec.pth'), map_location=device))
@@ -45,3 +52,7 @@ def run(encoder, decoder):
 
     print(input_sentence)
     print(pred_sentence)
+
+
+if __name__ == '__main__':
+    main()

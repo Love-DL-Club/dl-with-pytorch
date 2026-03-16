@@ -39,12 +39,14 @@ class Decoder(nn.Module):
         x = self.embedding(x).view(1, 1, -1)
         x = self.dropout(x)
 
-        attn_weights = self.softmax(self.attention(torch.cat(x[0], h[0], -1)))
+        attn_weights = self.softmax(self.attention(torch.cat((x[0], h[0]), -1)))
 
-        attn_applied = torch.bmm(attn_weights.unsqueeze(0), encoder_outputs.unsqeeze(0))
+        attn_applied = torch.bmm(
+            attn_weights.unsqueeze(0), encoder_outputs.unsqueeze(0)
+        )
 
         output = torch.cat((x[0], attn_applied[0]), 1)
-        output = self.context(output).unsqeeze(0)
+        output = self.context(output).unsqueeze(0)
         output = self.relu(output)
 
         output, _ = self.gru(output, h)

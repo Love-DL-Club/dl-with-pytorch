@@ -6,15 +6,15 @@ import tqdm
 from torch.optim.adam import Adam
 
 from lib.utils.device import available_device
-from lib.utils.path import model_path
+from lib.utils.path import data_path, model_path
 from seq2seq.dataset import Eng2Kor, loader
 from seq2seq.models import Decoder, Encoder
 
 
-def run():
+def main():
     device = available_device()
 
-    dataset = Eng2Kor()
+    dataset = Eng2Kor(data_path() / 'CH11.txt')
 
     encoder = Encoder(input_size=len(dataset.eng_bow), hidden_size=64).to(device)
     decoder = Decoder(64, len(dataset.kor_bow), dropout_p=0.1).to(device)
@@ -66,7 +66,7 @@ def run():
                     )
 
                     _, topi = decoder_output.topk(1)
-                    decoder_input = topi.squeeze().detch()
+                    decoder_input = topi.squeeze().detach()
 
                     target = torch.tensor(label[di], dtype=torch.long).to(device)
                     target = torch.unsqueeze(target, dim=0).to(device)
@@ -83,4 +83,8 @@ def run():
             decoder_optim.step()
 
     torch.save(encoder.state_dict(), model_path('attn_enc.pth'))
-    torch.save(decoder.state_dict(), model_path('attn_enc.pth'))
+    torch.save(decoder.state_dict(), model_path('attn_dec.pth'))
+
+
+if __name__ == '__main__':
+    main()
