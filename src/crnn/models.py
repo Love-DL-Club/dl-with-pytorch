@@ -1,5 +1,5 @@
-import torch.functional as F
 import torch.nn as nn
+import torch.nn.functional as F
 
 
 class BasicBlock(nn.Module):
@@ -81,6 +81,6 @@ class CRNN(nn.Module):
         x = self.relu(x)
         x = self.fc2(x)
 
-        x = F.log_softmax(x, dim=1)
+        x = F.log_softmax(x, dim=-1)
 
         return x

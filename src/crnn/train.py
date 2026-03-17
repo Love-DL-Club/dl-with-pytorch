@@ -13,7 +13,7 @@ from lib.utils.path import data_path, model_path
 def main():
     device = available_device()
 
-    dataset = Captcha(path=data_path())
+    dataset = Captcha(path=str(data_path() / 'CH12'))
     loader = DataLoader(dataset, batch_size=8)
 
     model = CRNN(output_size=len(dataset.BOW)).to(device)
@@ -29,7 +29,11 @@ def main():
             optim.zero_grad()
             preds = model(data.to(device))
 
-            preds_size = torch.IntTensor([preds.size(0)] * 8).to(device)
+            current_batch_size = data.size(0)
+
+            preds_size = torch.IntTensor([preds.size(0)] * current_batch_size).to(
+                device
+            )
             target_len = torch.IntTensor([len(txt) for txt in label]).to(device)
 
             loss = criterion(preds, label.to(device), preds_size, target_len)

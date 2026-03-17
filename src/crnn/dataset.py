@@ -1,4 +1,5 @@
 import glob
+import os
 import string
 
 import numpy as np
@@ -37,17 +38,19 @@ class Captcha(Dataset):
 
     def __len__(self):
         if self.train:
-            return len(self.imgfiles)
+            return len(self.trainset)
         else:
             return len(self.testset)
 
     def __getitem__(self, i):
         if self.train:
-            data = Image.open(self.trainset[i]).convert('RGB')
+            img_path = self.trainset[i]
+            data = Image.open(img_path).convert('RGB')
 
-            label = self.trainset[i].split('/')[-1]
+            # os.path.basename을 쓰면 /든 \든 상관없이 파일명만 가져옵니다.
+            label = os.path.basename(img_path)
             label = label.split('.png')[0]
-            label = self.get_seq(label)
+            label = self.get_seq(label.lower())  # 혹시 모르니 소문자 처리 추가
 
             data = np.array(data).astype(np.float32)
             data = np.transpose(data, (2, 0, 1))
@@ -55,12 +58,38 @@ class Captcha(Dataset):
 
             return data, label
         else:
-            data = Image.open(self.testset[i]).convert('RGB')
-            label = self.testset[i].split('/')[-1]
+            img_path = self.testset[i]
+            data = Image.open(img_path).convert('RGB')
+
+            label = os.path.basename(img_path)
             label = label.split('.png')[0]
-            label = self.get_seq(label)
+            label = self.get_seq(label.lower())
 
             data = np.array(data).astype(np.float32)
             label = np.array(label)
 
             return data, label
+
+    # def __getitem__(self, i):
+    #     if self.train:
+    #         data = Image.open(self.trainset[i]).convert('RGB')
+
+    #         label = self.trainset[i].split('/')[-1]
+    #         label = label.split('.png')[0]
+    #         label = self.get_seq(label)
+
+    #         data = np.array(data).astype(np.float32)
+    #         data = np.transpose(data, (2, 0, 1))
+    #         label = np.array(label)
+
+    #         return data, label
+    #     else:
+    #         data = Image.open(self.testset[i]).convert('RGB')
+    #         label = self.testset[i].split('/')[-1]
+    #         label = label.split('.png')[0]
+    #         label = self.get_seq(label)
+
+    #         data = np.array(data).astype(np.float32)
+    #         label = np.array(label)
+
+    #         return data, label
