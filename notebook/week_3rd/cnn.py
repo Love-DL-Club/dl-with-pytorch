@@ -14,29 +14,19 @@
 
 # %%
 import matplotlib.pyplot as plt
-from torchvision.datasets.cifar import CIFAR10
 from torchvision.transforms import ToTensor
 
 # %%
 from lib.cifar10_data import load_data
 from lib.path import data_path
 
-# %%
-training_data = load_data(data_path(), transform=ToTensor())
-
 # %% [markdown]
 # # 데이터 불러오기
 
 # %%
-# CIFAR-10 데이터셋 불러오기
-training_data = CIFAR10(
-    root='./',  # 이미지를 내려받을 경로
-    train=True,  # 학습용 Train 데이터 사용 False면 평가용 데이터를 불러온다
-    download=True,  # 없으면 다운로드하겠다
-    transform=ToTensor(),  # 텐서형태로 불러오겠다
-)
+training_data = load_data(data_path(), transform=ToTensor())
 
-test_data = CIFAR10(root='./', train=False, download=True, transform=ToTensor())
+test_data = load_data(data_path(), train=False, transform=ToTensor())
 
 # %% [markdown]
 # # 이미지 확인
@@ -60,7 +50,6 @@ plt.show()
 # %%
 import matplotlib.pyplot as plt
 import torchvision.transforms as T
-from torchvision.datasets.cifar import CIFAR10
 from torchvision.transforms import Compose, RandomCrop, RandomHorizontalFlip
 
 transforms = Compose(  # 데이터 전처리 함수
@@ -73,9 +62,9 @@ transforms = Compose(  # 데이터 전처리 함수
     ]
 )
 
-training_data = CIFAR10(root='./', train=True, download=True, transform=transforms)
+training_data = load_data(data_path(), transform=ToTensor())
 
-test_data = CIFAR10(root='./', train=False, download=True, transform=transforms)
+test_data = load_data(data_path(), train=False, transform=ToTensor())
 
 for i in range(9):
     plt.subplot(3, 3, i + 1)
@@ -92,7 +81,6 @@ plt.show()
 # %%
 import matplotlib.pyplot as plt
 import torchvision.transforms as T
-from torchvision.datasets.cifar import CIFAR10
 from torchvision.transforms import Compose, Normalize, RandomCrop, RandomHorizontalFlip
 
 # 데이터 전처리 정의
@@ -108,10 +96,10 @@ transforms = Compose(
 )
 
 # 학습용 데이터 정의
-training_data = CIFAR10(root='./', train=True, download=True, transform=transforms)
+training_data = load_data(data_path(), transform=ToTensor())
 
 # 평가용 데이터 정의
-test_data = CIFAR10(root='./', train=False, download=True, transform=transforms)
+test_data = load_data(data_path(), train=False, transform=ToTensor())
 
 # 이미지 표시
 for i in range(9):
@@ -125,7 +113,7 @@ plt.show()
 # %%
 import torch
 
-training_data = CIFAR10(root='./', train=True, download=True, transform=ToTensor())
+training_data = load_data(data_path(), transform=ToTensor())
 
 # item[0]은 이미지, item[1]은 정답 레이블
 imgs = [item[0] for item in training_data]
@@ -176,9 +164,9 @@ class BasicBlock(nn.Module):  # 기본 블록 정의
         return x
 
 
-
 # %% [markdown]
 # # VGG 모델 정의하기
+
 
 # %%
 class CNN(nn.Module):
@@ -212,6 +200,7 @@ class CNN(nn.Module):
 
         return x
 
+
 # %% [markdown]
 # # 134p
 
@@ -219,5 +208,36 @@ class CNN(nn.Module):
 # # 데이터 증강 정의
 
 # %%
+from torch.utils.data.dataloader import DataLoader
 
+transforms = Compose(
+    [
+        RandomCrop(
+            (32, 32), padding=4
+        ),  # padding=4 는 자르기 전에 이미지 바깥쪽에 4픽셀씩 여백을 추가한다
+        RandomHorizontalFlip(p=0.5),
+        ToTensor(),
+        Normalize(mean=(0.4914, 0.4822, 0.4465), std=(0.247, 0.243, 0.261)),
+    ]
+)
 
+# %% [markdown]
+# # 데이터 로드 및 모델 정의
+
+# %%
+# 학습용 데이터와 평가용 데이터 불러오기
+training_data = load_data(data_path(), transform=ToTensor())
+test_data = load_data(data_path(), train=False, transform=ToTensor())
+
+# 데이터로더 정의
+train_loader = DataLoader(training_data, batch_size=32, shuffle=True)
+test_loader = DataLoader(test_data, batch_size=32, shuffle=True)
+
+# 학습을 진행할 프로세서 설정
+device = 'cuda' if torch.cuda.is_available() else 'cpu'
+
+# CNN 모델 정의
+model = CNN(num_classes=10)
+
+# 모델을 device로 보냄
+model.to(device)
