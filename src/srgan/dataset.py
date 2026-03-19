@@ -9,7 +9,9 @@ from lib.utils.path import data_path
 
 class CelebA(Dataset):
     def __init__(self):
-        self.imgs = glob.glob(str(data_path() / 'img_align_celeba' / '*.jpg'))
+        self.imgs = glob.glob(
+            str(data_path() / 'images' / 'img_align_celeba' / '*.jpg')
+        )
 
         mean_std = (0.5, 0.5, 0.5)
 
