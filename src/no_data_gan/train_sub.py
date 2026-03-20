@@ -56,3 +56,5 @@ def main(epochs=500):
         G_optim.step()
 
         print(f'epoch{ep} G_loss: {G_loss}')
+
+    torch.save(student.state_dict(), model_path('student.pth'))
