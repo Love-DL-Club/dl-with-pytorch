@@ -2,23 +2,17 @@ import torch
 import torch.nn as nn
 import tqdm
 from torch.optim.adam import Adam
-from torch.utils.data.dataloader import DataLoader
 from torchvision.models.resnet import (
     resnet34,
 )
 
-from lib.dataset.cifar10_data import load_data
 from lib.utils.device import available_device
-from lib.utils.path import data_path, model_path
-from no_data_gan.transforms import create
+from lib.utils.path import model_path
+from no_data_gan.dataset import train_loader
 
 
 def main(epoch=30):
-    transforms = create()
-
-    train_data = load_data(data_path(), transform=transforms)
-
-    train_loader = DataLoader(train_data, batch_size=32, shuffle=True)
+    loader = train_loader()
 
     device = available_device()
 
@@ -31,7 +25,7 @@ def main(epoch=30):
     criterion = nn.CrossEntropyLoss()
 
     for ep in range(epoch):
-        iterator = tqdm.tqdm(train_loader)
+        iterator = tqdm.tqdm(loader)
 
         for data, label in iterator:
             optim.zero_grad()
