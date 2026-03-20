@@ -7,17 +7,17 @@
 #       format_version: '1.3'
 #       jupytext_version: 1.19.1
 #   kernelspec:
-#     display_name: study-club (3.11.14)
+#     display_name: dl-with-pytorch (3.11.14)
 #     language: python
 #     name: python3
 # ---
 
 # %%
-from no_data_gan.train import main
+from no_data_gan.train_sub import main as teacher
 
-model = main()
+model = teacher()
 
 # %%
-from no_data_gan.test import main
+from no_data_gan.test_sub import main as student
 
-main(model)
+student(model)

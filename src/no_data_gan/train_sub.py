@@ -58,3 +58,9 @@ def main(epochs=500):
         print(f'epoch{ep} G_loss: {G_loss}')
 
     torch.save(student.state_dict(), model_path('student.pth'))
+
+    return student
+
+
+if __name__ == '__main__':
+    main()
