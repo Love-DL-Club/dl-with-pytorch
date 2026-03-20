@@ -3,7 +3,7 @@ import torch.nn as nn
 
 class Generator(nn.Module):
     def __init__(self, dims=256, channels=3):
-        super.__init__()
+        super().__init__()
 
         self.l1 = nn.Sequential(nn.Linear(dims, 128 * 8 * 8))
 
