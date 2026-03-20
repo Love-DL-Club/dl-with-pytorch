@@ -17,3 +17,10 @@ def data_path():
     Path(data_path).mkdir(parents=True, exist_ok=True)
 
     return data_path
+
+
+def image_path():
+    data_path = root / 'data' / 'images'
+    Path(data_path).mkdir(parents=True, exist_ok=True)
+
+    return data_path
